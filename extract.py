@@ -6,6 +6,7 @@ def parse(file):
 	
 	results = []
 	i = 0
+		
 	for line in open(file,'r').readlines():	
 	
 		# determine valid flight or not
@@ -47,12 +48,14 @@ def parse(file):
 				
 			
 			results.append(flight)
-			# one liner
+			# first 20 flights
 			if i > 20:
 				print results
 				sys.exit(0)
 			else:
 				i = i + 1
+				
+	return results
 
 def valid_flight(line):
 	if "AirItinerary" in line:
@@ -61,14 +64,15 @@ def valid_flight(line):
 		return None
 
 def usage():
-    print "./extract.py -f <target>-h]"
-    print " -f|--file <file to parse>"
-    print " -h|--help Shows this help\n"
+	print "./extract.py -f <target> -n <number> -h]"
+	print " -f|--file <file to parse>"
+	print " -n|--number <number of results>"
+	print " -h|--help Shows this help\n"
 	
 def main(argv):
    
     try:
-        opts, args = getopt.getopt(argv, "hf:", ["help", "file="])
+        opts, args = getopt.getopt(argv, "hf:n:", ["help", "file=", "number="])
     except getopt.GetoptError:
         usage()
         sys.exit(-1)
@@ -86,7 +90,7 @@ def main(argv):
 		usage()
 		sys.exit(-1)
 		
-	parse(file)
+	results = parse(file)
 	
 if __name__ == "__main__":
     main(sys.argv[1:])	
